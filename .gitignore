@@ -4,6 +4,10 @@ ENV/
 env/
 .venv/
 
+# Ignorer le build
+.build/
+.dist/
+
 # Ignorer les fichiers de cache Python
 __pycache__/
 *.py[cod]
