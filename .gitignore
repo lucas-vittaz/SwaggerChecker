@@ -1,0 +1,17 @@
+# Ignorer les environnements virtuels
+venv/
+ENV/
+env/
+.venv/
+
+# Ignorer les fichiers de cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignorer les fichiers de configuration IDE
+.vscode/
+.idea/
+
+# Ignorer les fichiers .exe générés
+*.exe
