@@ -3,9 +3,9 @@ import sys
 import json
 
 from .path_validator import PathValidator
-from .projet.header_validator import HeaderValidator
+from .header_validator import HeaderValidator
 from .query_param_validator import QueryParamValidator
-from .projet.info_validator import InfoValidator
+from .info_validator import InfoValidator
 from .response_validator import ResponseValidator
 
 class ProjetRulesValidator:
@@ -26,7 +26,7 @@ class ProjetRulesValidator:
                 base_path = sys._MEIPASS
                 rules_config_path = os.path.join(base_path, 'config', 'projet_validation_rules.json')
             else:
-                base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+                base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..','..'))
                 rules_config_path = os.path.join(base_path, 'config', 'projet_validation_rules.json')
 
         print(f"Loading validation rules from: {rules_config_path}")

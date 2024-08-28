@@ -1,4 +1,4 @@
-from .projet.base_validator import BaseValidator
+from .base_validator import BaseValidator
 
 class PathValidator(BaseValidator):
     """
