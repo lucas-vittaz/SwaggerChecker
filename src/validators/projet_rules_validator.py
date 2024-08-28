@@ -109,7 +109,7 @@ class ProjetRulesValidator:
                 header_name = rule["name"]
                 header = self._find_parameter(header_name, 'header', method)
                 if header:
-                    if rule.get("required", False) et que l'en-tête n'est pas requis dans le Swagger :
+                    if rule.get("required", False):
                         line_number = self._find_line_number(header_name)
                         errors.append(f"Header '{header_name}' non obligatoire mais devrait l'être dans {method} (ligne {line_number})")
                     if "type" in rule and header.get('schema', {}).get('type') != rule["type"]:
