@@ -38,6 +38,7 @@ class OpenAPIValidator:
             else:
                 raise Exception("Version Swagger/OpenAPI non spécifiée.")
 
+            # Itérer sur les erreurs de validation
             for error in validator.iter_errors(self.swagger_dict):
                 error_message = self._extract_error_line(str(error))
                 errors.append(error_message)
