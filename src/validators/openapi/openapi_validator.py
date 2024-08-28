@@ -31,7 +31,6 @@ class OpenAPIValidator:
         """
         errors = []
         try:
-            # Utiliser le validateur approprié en fonction de la version de Swagger/OpenAPI
             if 'swagger' in self.swagger_dict:
                 validator = openapi_v2_spec_validator
             elif 'openapi' in self.swagger_dict:
@@ -62,6 +61,6 @@ class OpenAPIValidator:
             str: Une chaîne indiquant la ligne de l'erreur ou un message d'erreur.
         """
         for index, line in enumerate(self.swagger_text, start=1):
-            if error_message.split(":")[0] in line:  # Simple keyword match
+            if error_message.split(":")[0] in line:
                 return f"Ligne {index}: {error_message}"
         return f"Erreur: {error_message}"

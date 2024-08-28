@@ -1,8 +1,9 @@
 import tkinter as tk
+import os
 from tkinter import filedialog, messagebox, scrolledtext
 
-from src.validators.openapi_validator import OpenAPIValidator
-from src.validators.projet_rules_validator import ProjetRulesValidator
+from src.validators.openapi.openapi_validator import OpenAPIValidator
+from src.validators.projet.projet_rules_validator import ProjetRulesValidator
 from src.utils.swagger_loader import load_swagger
 
 class UserInterface(tk.Tk):
@@ -82,7 +83,8 @@ class UserInterface(tk.Tk):
                 with open(self.swagger_file_path, 'r') as file:
                     self.swagger_text = file.read()
                     self.swagger_dict = load_swagger(self.swagger_file_path)
-                self.result_text.insert(tk.END, f"Fichier importé avec succès: {self.swagger_file_path}\n\n", "success")
+                    swagger_name = os.path.basename(self.swagger_file_path)
+                self.result_text.insert(tk.END, f"Fichier importé avec succès: {swagger_name}\n\n", "success")
             except Exception as e:
                 messagebox.showerror("Erreur", f"Impossible de charger le fichier Swagger : {str(e)}")
 
