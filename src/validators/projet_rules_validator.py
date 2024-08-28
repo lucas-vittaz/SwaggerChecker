@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import re
 
 class ProjetRulesValidator:
     """
@@ -35,6 +36,8 @@ class ProjetRulesValidator:
         self.swagger_text = swagger_text.splitlines()
         self.rules = self.load_validation_rules(rules_config_path)
         self.reserved_paths = self.rules.get("reserved_paths", [])
+        self.reserved_headers = self.rules.get("reserved_headers", [])
+        self.reserved_query_parameters = self.rules.get("reserved_query_parameters", [])
 
     def load_validation_rules(self, filepath):
         """
@@ -63,18 +66,51 @@ class ProjetRulesValidator:
                     errors.append(f"Le chemin '{path}' contient un mot réservé '{reserved}' (ligne {line_number})")
         return errors
 
-    def validate_query_parameters(self, method):
+    def validate_reserved_headers(self):
         """
-        Valide les paramètres de requête pour une méthode HTTP donnée en fonction des règles définies.
+        Vérifie que les headers définis dans chaque chemin du Swagger ne contiennent pas de mots réservés définis dans les règles de validation.
 
-        :param method: Méthode HTTP (GET, POST, etc.) pour laquelle les paramètres de requête doivent être validés.
-        :return: Une liste d'erreurs trouvées lors de la validation des paramètres de requête.
+        :return: Une liste d'erreurs trouvées lors de la validation des headers réservés.
         """
+        errors = []
+        
+        paths = self.swagger_dict.get('paths', {})
+        
+        for path_data in paths.values():
+            for method_data in path_data.values():
+                for param in method_data.get('parameters', []):
+                    if param.get('in') == 'header':
+                        header_name = param.get('name')
+                        for reserved in self.reserved_headers:
+                            if reserved.lower() == header_name.lower():
+                                line_number = self._find_line_number(header_name)
+                                errors.append(f"Header '{header_name}' contient un mot réservé '{reserved}' (ligne {line_number})")
+        
+        return errors
+
+    def validate_reserved_query_parameters(self):
+        errors = []
+        paths = self.swagger_dict.get('paths', {})
+        
+        for path, path_data in paths.items():
+            for method, method_data in path_data.items():
+                for param in method_data.get('parameters', []):
+                    if param.get('in') == 'query':
+                        param_name = param.get('name')
+                        for reserved in self.reserved_query_parameters:
+                            if reserved.lower() == param_name.lower():
+                                line_number = self._find_line_number(param_name)
+                                errors.append(f"Paramètre de requête '{param_name}' contient un mot réservé '{reserved}' (ligne {line_number}) dans {method.upper()} {path}")
+        
+        return errors
+
+    def validate_query_parameters(self, method):
         errors = []
         method_rules = self.rules.get(method, {})
         
-        if isinstance(method_rules, dict):  # Assurez-vous que method_rules est un dictionnaire
+        if isinstance(method_rules, dict):
             query_parameters = method_rules.get("query_parameters", [])
+
             for rule in query_parameters:
                 param_name = rule["name"]
                 parameter = self._find_parameter(param_name, 'query', method)
@@ -103,13 +139,15 @@ class ProjetRulesValidator:
         errors = []
         method_rules = self.rules.get(method, {})
 
-        if isinstance(method_rules, dict):  # Assurez-vous que method_rules est un dictionnaire
+        if isinstance(method_rules, dict):  
             headers = method_rules.get("headers", [])
+            errors.extend(self.validate_reserved_headers())
+
             for rule in headers:
                 header_name = rule["name"]
                 header = self._find_parameter(header_name, 'header', method)
                 if header:
-                    if rule.get("required", False):
+                    if rule.get("required", False) and not header.get('required', False):
                         line_number = self._find_line_number(header_name)
                         errors.append(f"Header '{header_name}' non obligatoire mais devrait l'être dans {method} (ligne {line_number})")
                     if "type" in rule and header.get('schema', {}).get('type') != rule["type"]:
@@ -143,6 +181,62 @@ class ProjetRulesValidator:
                 line_number = self._find_line_number(f'"{response_code}":')
                 errors.append(f"Gestion de l'erreur {response_code} manquante dans {method} (ligne {line_number})")
         return errors
+    
+    def validate_version(self):
+        """
+        Vérifie que le Swagger possède bien une version dans la section `info` qui commence par 'v' suivi d'un chiffre.
+
+        :return: Une liste d'erreurs trouvées lors de la validation de la version.
+        """
+        errors = []
+        info = self.swagger_dict.get('info', {})
+
+        version = info.get('version')
+        if not version:
+            errors.append("Le Swagger ne contient pas de version dans la section 'info'.")
+        elif not re.match(r'^v\d+', version):
+            errors.append(f"La version '{version}' ne commence pas par 'v' suivi d'un chiffre.")
+        
+        return errors
+    
+    def validate_basepath(self):
+        """
+        Vérifie que le Swagger possède bien un `basePath` composé du nom de l'API suivi de la version.
+
+        :return: Une liste d'erreurs trouvées lors de la validation du `basePath`.
+        """
+        errors = []
+        
+        base_path = self.swagger_dict.get('basePath', '')
+        info = self.swagger_dict.get('info', {})
+        title = info.get('title', '')
+        version = info.get('version', '')
+        
+        if not base_path:
+            errors.append("Le Swagger ne contient pas de `basePath`.")
+        else:
+            expected_base_path = f"/{title}/{version}"
+            
+            if base_path != expected_base_path:
+                errors.append(f"Le `basePath` est incorrect : attendu '{expected_base_path}', trouvé '{base_path}'.")
+        
+        return errors
+
+    def validate_description(self):
+        """
+        Vérifie que le Swagger possède bien une description dans la section `info`.
+
+        :return: Une liste d'erreurs trouvées lors de la validation de la description.
+        """
+        errors = []
+        info = self.swagger_dict.get('info', {})
+
+        description = info.get('description')
+        if not description or description.strip() == '':
+            errors.append("Le Swagger contient une description vide ou absente dans la section 'info'.")
+        
+        return errors
+
 
     def _find_parameter(self, name, location, method):
         """
@@ -199,16 +293,16 @@ class ProjetRulesValidator:
         return True
 
     def validate(self):
-        """
-        Exécute toutes les validations pour les chemins réservés, les paramètres de requête, les en-têtes et les réponses.
-
-        :return: Un tuple (bool, str) où le booléen indique si le Swagger est conforme, et la chaîne contient les détails des erreurs ou un message de succès.
-        """
         errors = []
         errors.extend(self.validate_reserved_paths())
+        errors.extend(self.validate_reserved_headers())      
+        errors.extend(self.validate_reserved_query_parameters())
+        errors.extend(self.validate_version())
+        errors.extend(self.validate_basepath())
+        errors.extend(self.validate_description())
         
         for method, method_rules in self.rules.items():
-            if isinstance(method_rules, dict):  # Vérifier que method_rules est un dictionnaire
+            if isinstance(method_rules, dict):
                 errors.extend(self.validate_query_parameters(method))
                 errors.extend(self.validate_headers(method))
                 errors.extend(self.validate_responses(method))

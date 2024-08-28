@@ -6,6 +6,14 @@
         "root",
         "system"
     ],
+    "reserved_headers": [
+        "toto",
+        "tata"
+    ],
+    "reserved_query_parameters": [
+        "john",
+        "doe"
+    ],
     "GET": {
         "query_parameters": [
             {
