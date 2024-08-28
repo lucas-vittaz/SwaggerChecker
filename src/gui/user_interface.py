@@ -2,8 +2,8 @@ import tkinter as tk
 import os
 from tkinter import filedialog, messagebox, scrolledtext
 
-from src.validators.openapi_validator import OpenAPIValidator
-from src.validators.projet_rules_validator import ProjetRulesValidator
+from src.validators.openapi.openapi_validator import OpenAPIValidator
+from src.validators.projet.projet_rules_validator import ProjetRulesValidator
 from src.utils.swagger_loader import load_swagger
 
 class UserInterface(tk.Tk):

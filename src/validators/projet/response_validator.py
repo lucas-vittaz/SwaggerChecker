@@ -1,4 +1,4 @@
-from .base_validator import BaseValidator
+from .projet.base_validator import BaseValidator
 
 class ResponseValidator(BaseValidator):
     """

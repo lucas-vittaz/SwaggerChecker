@@ -15,10 +15,8 @@ def main():
     2. Appelle `app.mainloop()` pour démarrer la boucle principale Tkinter,
        permettant à l'utilisateur d'interagir avec l'application.
     """
-    # Initialiser l'application
     app = UserInterface()
     
-    # Lancer la boucle principale de l'interface graphique
     app.mainloop()
 
 if __name__ == "__main__":

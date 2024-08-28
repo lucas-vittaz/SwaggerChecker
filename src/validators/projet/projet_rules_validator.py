@@ -3,9 +3,9 @@ import sys
 import json
 
 from .path_validator import PathValidator
-from .header_validator import HeaderValidator
+from .projet.header_validator import HeaderValidator
 from .query_param_validator import QueryParamValidator
-from .info_validator import InfoValidator
+from .projet.info_validator import InfoValidator
 from .response_validator import ResponseValidator
 
 class ProjetRulesValidator:
