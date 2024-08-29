@@ -7,6 +7,7 @@ from .header_validator import HeaderValidator
 from .query_param_validator import QueryParamValidator
 from .info_validator import InfoValidator
 from .response_validator import ResponseValidator
+from .special_character_validator import SpecialCharacterValidator
 
 class ProjetRulesValidator:
     """
@@ -35,11 +36,14 @@ class ProjetRulesValidator:
         self.swagger_text = swagger_text.splitlines()
         self.rules = self.load_validation_rules(rules_config_path)
 
+        special_characters = self.rules.get("special_characters", [])
+
         self.path_validator = PathValidator(swagger_dict, swagger_text, self.rules.get("reserved_paths", []))
         self.header_validator = HeaderValidator(swagger_dict, swagger_text, self.rules.get("reserved_headers", []))
         self.query_param_validator = QueryParamValidator(swagger_dict, swagger_text, self.rules.get("reserved_query_parameters", []))
         self.info_validator = InfoValidator(swagger_dict, swagger_text)
         self.response_validator = ResponseValidator(swagger_dict, swagger_text)
+        self.special_character_validator = SpecialCharacterValidator(swagger_dict, swagger_text, special_characters)
 
     def load_validation_rules(self, filepath):
         """
@@ -69,6 +73,7 @@ class ProjetRulesValidator:
         errors.extend(self.info_validator.validate_version())
         errors.extend(self.info_validator.validate_description())
         errors.extend(self.info_validator.validate_basepath())
+        errors.extend(self.special_character_validator.validate_all_values())
 
         for method, method_rules in self.rules.items():
             if isinstance(method_rules, dict):

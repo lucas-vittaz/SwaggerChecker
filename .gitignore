@@ -19,3 +19,7 @@ __pycache__/
 
 # Ignorer les fichiers .exe générés
 *.exe
+
+# Ignorer les rapport de code coverage
+.coverage
+.htmlcov/

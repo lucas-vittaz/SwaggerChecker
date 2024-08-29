@@ -1,3 +1,4 @@
 openapi-spec-validator
 PyYAML
-
+pytest
+pytest-cov
