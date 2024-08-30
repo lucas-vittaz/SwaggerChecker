@@ -5,7 +5,7 @@ env/
 .venv/
 
 # Ignorer le build
-.build/
+build/
 .dist/
 
 # Ignorer les fichiers de cache Python

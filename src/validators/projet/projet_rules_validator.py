@@ -2,12 +2,12 @@ import os
 import sys
 import json
 
-from .path_validator import PathValidator
-from .header_validator import HeaderValidator
-from .query_param_validator import QueryParamValidator
-from .info_validator import InfoValidator
-from .response_validator import ResponseValidator
-from .special_character_validator import SpecialCharacterValidator
+from .reserved_keywords.reserved_path_validator import ReservedPathValidator
+from .reserved_keywords.reserved_header_validator import ReservedHeaderValidator
+from .reserved_keywords.reserved_query_param_validator import ReservedQueryParamValidator
+from .info.info_validator import InfoValidator
+from .responses.response_validator import ResponseValidator
+from .reserved_keywords.special_character_validator import SpecialCharacterValidator
 
 class ProjetRulesValidator:
     """
@@ -38,9 +38,9 @@ class ProjetRulesValidator:
 
         special_characters = self.rules.get("special_characters", [])
 
-        self.path_validator = PathValidator(swagger_dict, swagger_text, self.rules.get("reserved_paths", []))
-        self.header_validator = HeaderValidator(swagger_dict, swagger_text, self.rules.get("reserved_headers", []))
-        self.query_param_validator = QueryParamValidator(swagger_dict, swagger_text, self.rules.get("reserved_query_parameters", []))
+        self.path_validator = ReservedPathValidator(swagger_dict, swagger_text, self.rules.get("reserved_paths", []))
+        self.header_validator = ReservedHeaderValidator(swagger_dict, swagger_text, self.rules.get("reserved_headers", []))
+        self.query_param_validator = ReservedQueryParamValidator(swagger_dict, swagger_text, self.rules.get("reserved_query_parameters", []))
         self.info_validator = InfoValidator(swagger_dict, swagger_text)
         self.response_validator = ResponseValidator(swagger_dict, swagger_text)
         self.special_character_validator = SpecialCharacterValidator(swagger_dict, swagger_text, special_characters)

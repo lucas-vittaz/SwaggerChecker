@@ -1,6 +1,7 @@
 import pytest
 import json
-from src.validators.projet.path_validator import PathValidator
+
+from src.validators.projet.reserved_keywords.reserved_path_validator import ReservedPathValidator
 
 @pytest.fixture
 def reserved_paths():
@@ -37,12 +38,12 @@ def swagger_text():
     """
 
 def test_validate_reserved_paths_passant(swagger_dict_passant, swagger_text, reserved_paths):
-    validator = PathValidator(swagger_dict_passant, swagger_text, reserved_paths)
+    validator = ReservedPathValidator(swagger_dict_passant, swagger_text, reserved_paths)
     errors = validator.validate_reserved_paths()
     assert len(errors) == 0, f"Des erreurs ont été trouvées dans un cas passant: {errors}"
 
 def test_validate_reserved_paths_non_passant(swagger_dict_non_passant, swagger_text, reserved_paths):
-    validator = PathValidator(swagger_dict_non_passant, swagger_text, reserved_paths)
+    validator = ReservedPathValidator(swagger_dict_non_passant, swagger_text, reserved_paths)
     errors = validator.validate_reserved_paths()
     assert len(errors) == 2, f"Le nombre d'erreurs devrait être 2, mais est {len(errors)}. Erreurs: {errors}"
     assert "Le chemin '/api/v1/admin/dashboard' contient un mot réservé 'admin'" in errors[0]

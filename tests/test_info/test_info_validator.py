@@ -1,5 +1,6 @@
 import pytest
-from src.validators.projet.info_validator import InfoValidator
+
+from src.validators.projet.info.info_validator import InfoValidator
 
 @pytest.fixture
 def swagger_dict_valid():
