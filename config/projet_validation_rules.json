@@ -18,6 +18,22 @@
         "~"
     ],
     "GET": {
+        "headers": [
+            {
+                "name": "Content-Type",
+                "description": "Identifiant unique pour la requête GET",
+                "required": false,
+                "type": "string",
+                "x-example": "application/json;charset=UTF8"
+            },
+            {
+                "name": "test",
+                "description": "header test",
+                "required": true,
+                "type": "string",
+                "x-example": "test"
+            }
+        ],
         "query_parameters": [
             {
                 "name": "param1",
@@ -27,12 +43,13 @@
                 "value": "expected_value"
             }
         ],
-        "headers": [
+        "path": [
             {
-                "name": "X-Request-ID",
+                "name": "path1",
                 "required": true,
-                "type": "string",
-                "description": "Identifiant unique pour la requête GET"
+                "type": "integer",
+                "description": "Paramètre GET spécifique",
+                "value": "expected_value"
             }
         ],
         "responses": [
@@ -135,10 +152,12 @@
         "headers": [
             {
                 "name": "Authorization",
+                "description": "Jeton d'authentification pour POST",
                 "required": true,
                 "type": "string",
-                "description": "Jeton d'authentification pour POST"
+                "x-example": "toto"
             }
+            
         ],
         "responses": [
             {
