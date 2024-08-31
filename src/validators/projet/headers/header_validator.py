@@ -83,15 +83,19 @@ class HeaderValidator(BaseValidator):
                 f"    example: '{rule.get('x-example')}'\n"
             )
 
+        example = schema.get("example")
+        if example is None:
+            example = parameter.get("example")
+
         if rule.get("type") and schema.get("type") != rule["type"]:
             errors.append(
                 f"Le type du header '{header_name}' dans {method.upper()} {path} est '{schema.get('type')}', "
                 f"mais il devrait être '{rule['type']}'.\n{format_rule()}"
             )
 
-        if rule.get("x-example") and schema.get("example") != rule["x-example"]:
+        if rule.get("x-example") and example != rule["x-example"]:
             errors.append(
-                f"L'exemple du header '{header_name}' dans {method.upper()} {path} est '{schema.get('example')}', "
+                f"L'exemple du header '{header_name}' dans {method.upper()} {path} est '{example}', "
                 f"mais il devrait être '{rule['x-example']}'.\n{format_rule()}"
             )
 
