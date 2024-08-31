@@ -43,6 +43,7 @@ class QueryParamValidator(BaseValidator):
                                 f"    required: {rule.get('required')}\n"
                                 f"    description: '{rule.get('description')}'\n"
                                 f"    example: '{rule.get('value')}'\n"
+                                f"    format: '{rule.get('format')}'\n"
                             )
         return errors
 
@@ -71,6 +72,7 @@ class QueryParamValidator(BaseValidator):
         """
         errors = []
         param_name = rule["name"]
+        schema = parameter.get("schema", {})
 
         def format_rule():
             return (
@@ -80,12 +82,19 @@ class QueryParamValidator(BaseValidator):
                 f"    required: {rule.get('required')}\n"
                 f"    description: '{rule.get('description')}'\n"
                 f"    example: '{rule.get('value')}'\n"
+                f"    format: '{rule.get('format')}'\n"
             )
 
-        if rule.get("type") and parameter.get("schema", {}).get("type") != rule["type"]:
+        if rule.get("type") and schema.get("type") != rule["type"]:
             errors.append(
-                f"Le type du paramètre '{param_name}' dans {method.upper()} {path} est '{parameter.get('schema', {}).get('type')}', "
+                f"Le type du paramètre '{param_name}' dans {method.upper()} {path} est '{schema.get('type')}', "
                 f"mais il devrait être '{rule['type']}'.\n{format_rule()}"
+            )
+
+        if rule.get("format") and schema.get("format") != rule["format"]:
+            errors.append(
+                f"Le format du paramètre '{param_name}' dans {method.upper()} {path} est '{schema.get('format')}', "
+                f"mais il devrait être '{rule['format']}'.\n{format_rule()}"
             )
 
         if rule.get("value") and parameter.get("example") != rule["value"]:
@@ -98,6 +107,12 @@ class QueryParamValidator(BaseValidator):
             errors.append(
                 f"La description du paramètre '{param_name}' dans {method.upper()} {path} est '{parameter.get('description')}', "
                 f"mais il devrait être '{rule['description']}'.\n{format_rule()}"
+            )
+
+        if rule.get("required") is not None and parameter.get("required") != rule["required"]:
+            errors.append(
+                f"Le paramètre '{param_name}' dans {method.upper()} {path} est '{parameter.get('required')}', "
+                f"mais il devrait être '{rule['required']}'.\n{format_rule()}"
             )
 
         return errors
