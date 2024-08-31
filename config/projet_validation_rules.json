@@ -37,10 +37,11 @@
         "query_parameters": [
             {
                 "name": "param1",
+                "description": "Paramètre GET spécifique",
                 "required": true,
                 "type": "string",
-                "description": "Paramètre GET spécifique",
-                "value": "expected_value"
+                "format" : "",
+                "x-exemple": "expected_value"
             }
         ],
         "path": [
