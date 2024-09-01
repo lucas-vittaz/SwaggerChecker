@@ -1,6 +1,6 @@
-from .base_validator import BaseValidator
+from ..base_validator import BaseValidator
 
-class PathValidator(BaseValidator):
+class ReservedPathValidator(BaseValidator):
     """
     Valide les chemins définis dans le Swagger pour s'assurer qu'ils ne contiennent pas de mots réservés.
     """

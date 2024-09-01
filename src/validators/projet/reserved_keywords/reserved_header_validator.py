@@ -1,6 +1,6 @@
-from .base_validator import BaseValidator
+from ..base_validator import BaseValidator
 
-class HeaderValidator(BaseValidator):
+class ReservedHeaderValidator(BaseValidator):
     """
     Valide les en-têtes définis dans le Swagger pour s'assurer qu'ils ne contiennent pas de mots réservés.
     """

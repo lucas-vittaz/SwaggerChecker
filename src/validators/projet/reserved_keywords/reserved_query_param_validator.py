@@ -1,6 +1,6 @@
-from .base_validator import BaseValidator
+from ..base_validator import BaseValidator
 
-class QueryParamValidator(BaseValidator):
+class ReservedQueryParamValidator(BaseValidator):
     """
     Valide les paramètres de requête définis dans le Swagger pour s'assurer qu'ils ne contiennent pas de mots réservés.
     """

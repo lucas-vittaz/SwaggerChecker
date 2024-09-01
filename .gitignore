@@ -5,7 +5,7 @@ env/
 .venv/
 
 # Ignorer le build
-.build/
+build/
 .dist/
 
 # Ignorer les fichiers de cache Python
@@ -19,3 +19,7 @@ __pycache__/
 
 # Ignorer les fichiers .exe générés
 *.exe
+
+# Ignorer les rapport de code coverage
+.coverage
+.htmlcov/

@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('config/projet_validation_rules.json', 'config'), ('C:\\Users\\lucas\\innovation_enedis\\swagger-validator\\venv\\Lib\\site-packages\\openapi_spec_validator\\resources\\schemas\\v3.1\\schema.json', 'openapi_spec_validator/resources/schemas/v3.1')],
+    datas=[('venv/Lib/site-packages/openapi_spec_validator/resources/schemas', 'openapi_spec_validator/resources/schemas')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
