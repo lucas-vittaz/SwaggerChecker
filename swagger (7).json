@@ -1,0 +1,1841 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Liste des API disponible dans la Gateway MySI utilisés par le projet ",
+    "version": "v1",
+    "title": "access_my_si"
+  },
+  "host": "int.hml.api.enedis.fr",
+  "basePath": "/access_my_si/v1",
+  "tags": [
+    {
+      "name": "Application",
+      "description": "Liste des API reliée aux Applications"
+    },
+    {
+      "name": "Perturbation",
+      "description": "Liste des API reliée aux Perturbations"
+    },
+    {
+      "name": "Référentiel",
+      "description": "Liste des API reliées aux Services"
+    },
+    {
+      "name": "Utilisateur",
+      "description": "Liste des API reliée aux Utilisateurs"
+    }
+  ],
+  "security": [
+    {
+      "default": []
+    }
+  ],
+  "paths": {
+    "/application": {
+      "get": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "Retourne la liste de toutes les applications (liste de Application)",
+        "operationId": "getApplicationsUsingGET_",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Format du body de la requête",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json;charset=UTF-8"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Format de réponse acceptable",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Description de l'équipement qui a émis la requêtes (hardware/software)",
+            "required": false,
+            "type": "string",
+            "x-example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "Nom de domaine du serveur et numéro de port TCP si différent du port 80.\nFormat : &lt;Nom de domaine&gt;:&lt;port TCP&gt;\nx-example: ext.hml.api.enedis.fr  ",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Token Oauth récupéré après l'utilisation de la sous-ressource login pour accéder à leur service",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Application"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          },
+          {
+            "default": []
+          }
+        ],
+        "deprecated": false,
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited",
+        "x-wso2-application-security": {
+          "security-types": [
+            "oauth2"
+          ],
+          "optional": false
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Utilisateur"
+        ],
+        "summary": "Retourne un JWT pouvant être utiliser pour consommer l'API",
+        "operationId": "loginPost_",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Format du body de la requête",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json;charset=UTF-8"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Format de réponse acceptable",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Description de l'équipement qui a émis la requêtes (hardware/software)",
+            "required": false,
+            "type": "string",
+            "x-example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "Nom de domaine du serveur et numéro de port TCP si différent du port 80.\nFormat : &lt;Nom de domaine&gt;:&lt;port TCP&gt;\nx-example: ext.hml.api.enedis.fr  ",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "UserLogin",
+            "description": "Couple NNI / Mot de passe sesame",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "default": []
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited",
+        "x-wso2-application-security": {
+          "security-types": [
+            "oauth2"
+          ],
+          "optional": false
+        }
+      }
+    },
+    "/perturbation/en-cours": {
+      "get": {
+        "tags": [
+          "Perturbation"
+        ],
+        "summary": "Retourne la liste des perturbations en cours",
+        "operationId": "getAllPerturbationEnCoursUsingGET_",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Format du body de la requête",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json;charset=UTF-8"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Format de réponse acceptable",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Description de l'équipement qui a émis la requêtes (hardware/software)",
+            "required": false,
+            "type": "string",
+            "x-example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "Nom de domaine du serveur et numéro de port TCP si différent du port 80.\nFormat : &lt;Nom de domaine&gt;:&lt;port TCP&gt;\nx-example: ext.hml.api.enedis.fr  ",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Token Oauth récupéré après l'utilisation de la sous-ressource login pour accéder à leur service",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Perturbation"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          },
+          {
+            "default": []
+          }
+        ],
+        "deprecated": false,
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited",
+        "x-wso2-application-security": {
+          "security-types": [
+            "oauth2"
+          ],
+          "optional": false
+        }
+      }
+    },
+    "/perturbation/{nna}": {
+      "get": {
+        "tags": [
+          "Perturbation"
+        ],
+        "summary": "Récupère les perturbations pour l'application dont le nna est passé en paramètre",
+        "operationId": "getPerturbationByNnaUsingGET_",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Format du body de la requête",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json;charset=UTF-8"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Format de réponse acceptable",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Description de l'équipement qui a émis la requêtes (hardware/software)",
+            "required": false,
+            "type": "string",
+            "x-example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "Nom de domaine du serveur et numéro de port TCP si différent du port 80.\nFormat : &lt;Nom de domaine&gt;:&lt;port TCP&gt;\nx-example: ext.hml.api.enedis.fr  ",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "nna",
+            "in": "path",
+            "description": "nna",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Token Oauth récupéré après l'utilisation de la sous-ressource login pour accéder à leur service",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Perturbation"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          },
+          {
+            "default": []
+          }
+        ],
+        "deprecated": false,
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited",
+        "x-wso2-application-security": {
+          "security-types": [
+            "oauth2"
+          ],
+          "optional": false
+        }
+      }
+    },
+    "/service/acteurs": {
+      "get": {
+        "tags": [
+          "Référentiel"
+        ],
+        "summary": "Retourne la liste des acteurs avec leur role par service.",
+        "operationId": "getListActeursUsingGET_",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Format du body de la requête",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json;charset=UTF-8"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Format de réponse acceptable",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Description de l'équipement qui a émis la requêtes (hardware/software)",
+            "required": false,
+            "type": "string",
+            "x-example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "Nom de domaine du serveur et numéro de port TCP si différent du port 80.\nFormat : &lt;Nom de domaine&gt;:&lt;port TCP&gt;\nx-example: ext.hml.api.enedis.fr  ",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Token Oauth récupéré après l'utilisation de la sous-ressource login pour accéder à leur service",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ActeurApplications"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          },
+          {
+            "default": []
+          }
+        ],
+        "deprecated": false,
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited",
+        "x-wso2-application-security": {
+          "security-types": [
+            "oauth2"
+          ],
+          "optional": false
+        }
+      }
+    },
+    "/service/acteurs/{nni}": {
+      "get": {
+        "tags": [
+          "Référentiel"
+        ],
+        "summary": "Retourne la liste des roles sur les services d'un acteur.",
+        "operationId": "getActeurByNNIUsingGET_",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Format du body de la requête",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json;charset=UTF-8"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Format de réponse acceptable",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Description de l'équipement qui a émis la requêtes (hardware/software)",
+            "required": false,
+            "type": "string",
+            "x-example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "Nom de domaine du serveur et numéro de port TCP si différent du port 80.\nFormat : &lt;Nom de domaine&gt;:&lt;port TCP&gt;\nx-example: ext.hml.api.enedis.fr  ",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "nni",
+            "in": "path",
+            "description": "nni",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Token Oauth récupéré après l'utilisation de la sous-ressource login pour accéder à leur service",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/RoleServiceDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          },
+          {
+            "default": []
+          }
+        ],
+        "deprecated": false,
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited",
+        "x-wso2-application-security": {
+          "security-types": [
+            "oauth2"
+          ],
+          "optional": false
+        }
+      }
+    },
+    "/service/page": {
+      "get": {
+        "tags": [
+          "Référentiel"
+        ],
+        "summary": "Retourne une page de services avec utilisation de fields et possibilité de tri et de filtrage par INS.",
+        "operationId": "getPageApplicationsUsingGET__1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Format du body de la requête",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json;charset=UTF-8"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Format de réponse acceptable",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Description de l'équipement qui a émis la requêtes (hardware/software)",
+            "required": false,
+            "type": "string",
+            "x-example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "Nom de domaine du serveur et numéro de port TCP si différent du port 80.\nFormat : &lt;Nom de domaine&gt;:&lt;port TCP&gt;\nx-example: ext.hml.api.enedis.fr  ",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Token Oauth récupéré après l'utilisation de la sous-ressource login pour accéder à leur service",
+            "required": true,
+            "type": "string",
+            "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Choisir les champs à retourner (Ex : content.ins)",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filtrer sur un ou plusieurs champs (Ex : nom=MySI)",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "ins",
+            "in": "query",
+            "description": "Filtrer sur un ou plusieurs ins (Ex : ins=AQ7,SI1)",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Numéro de la page souhaité",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "x-example": 0
+          },
+          {
+            "name": "partenaire",
+            "in": "query",
+            "description": "Partenaire/Application bénéficiaire des données",
+            "required": true,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Nombre de résultat par page",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "x-example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Critères de tri sous format : champ,direction avec direction = asc ou desc. Le tri est par défaut ascendant. Il est possible d'utiliser plusieurs critères simultanément.",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PageServiceDetailsDto"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ErreurInnerApi"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          },
+          {
+            "default": []
+          }
+        ],
+        "deprecated": false,
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited",
+        "x-wso2-application-security": {
+          "security-types": [
+            "oauth2"
+          ],
+          "optional": false
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    },
+    "default": {
+      "type": "oauth2",
+      "authorizationUrl": "https://test.com",
+      "flow": "implicit"
+    }
+  },
+  "definitions": {
+    "ErreurInnerApi": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "error_description": {
+          "type": "string"
+        }
+      }
+    },
+    "ActeurApplications": {
+      "type": "object",
+      "properties": {
+        "nni": {
+          "type": "string"
+        },
+        "rolesOnService": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/RoleServiceDto"
+            }
+          }
+        }
+      },
+      "title": "ActeurApplications"
+    },
+    "Application": {
+      "type": "object",
+      "properties": {
+        "decommissionnee": {
+          "type": "boolean"
+        },
+        "departement": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "direction": {
+          "type": "string"
+        },
+        "domaine": {
+          "type": "string"
+        },
+        "entreprise": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "idMysiBo": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "idStatut": {
+          "type": "string"
+        },
+        "isActeur": {
+          "type": "boolean"
+        },
+        "isNotificationActive": {
+          "type": "boolean"
+        },
+        "isOIT": {
+          "type": "boolean"
+        },
+        "label": {
+          "type": "string"
+        },
+        "liens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lien"
+          }
+        },
+        "nna": {
+          "type": "string"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "pole": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "sysId": {
+          "type": "string"
+        },
+        "sysIdModel": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uniteEntite": {
+          "type": "string"
+        }
+      },
+      "title": "Application"
+    },
+    "Pageable": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "Pageable"
+    },
+    "PageServiceDetailsDto": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceDetailsDto"
+          }
+        },
+        "empty": {
+          "type": "boolean"
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageable": {
+          "$ref": "#/definitions/Pageable"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "PageServiceDetailsDto"
+    },
+    "Sort": {
+      "type": "object",
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        },
+        "sorted": {
+          "type": "boolean"
+        },
+        "unsorted": {
+          "type": "boolean"
+        }
+      },
+      "title": "Sort"
+    },
+    "Lien": {
+      "type": "object",
+      "properties": {
+        "complementInfo": {
+          "type": "string"
+        },
+        "libelle": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "Lien"
+    },
+    "ActeurDto": {
+      "type": "object",
+      "properties": {
+        "actif": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "mail": {
+          "type": "string"
+        },
+        "nni": {
+          "type": "string"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "prenom": {
+          "type": "string"
+        },
+        "responsabilite": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "role": {
+          "$ref": "#/definitions/ParametreDto"
+        }
+      },
+      "title": "ActeurDto"
+    },
+    "ParametreDto": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "tooltip": {
+          "type": "string"
+        }
+      },
+      "title": "ParametreDto"
+    },
+    "ParametresCommunsDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nom": {
+          "type": "string"
+        }
+      },
+      "title": "ParametresCommunsDto"
+    },
+    "ContinuiteDto": {
+      "type": "object",
+      "properties": {
+        "bullePra": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "cercle": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "dimaPra": {
+          "type": "string"
+        },
+        "dimaRe": {
+          "type": "string"
+        },
+        "mecanismePra": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "pdmaPra": {
+          "type": "string"
+        },
+        "pdmaRe": {
+          "type": "string"
+        },
+        "planRepriseActivite": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "regimeEtabli": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "siteEnvironnementSecours": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "siteProduction": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        }
+      },
+      "title": "ContinuiteDto"
+    },
+    "ServiceDetailsDto": {
+      "type": "object",
+      "properties": {
+        "acteurs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ActeurDto"
+          }
+        },
+        "alias": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "applicationMobile": {
+          "$ref": "#/definitions/ParametreDto"
+        },
+        "authentificationForte": {
+          "$ref": "#/definitions/ParametreDto"
+        },
+        "chaineDeValeursEtSocles": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "composants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComposantDto"
+          }
+        },
+        "continuiteService": {
+          "$ref": "#/definitions/ContinuiteDto"
+        },
+        "coordinationExploitation": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "criticite": {
+          "$ref": "#/definitions/ParametreDto"
+        },
+        "dateCreation": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateDecommissionnement": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateMiseEnService": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "departement": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "descriptionService": {
+          "type": "string"
+        },
+        "direction": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "directionMetier": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "documents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DocumentDto"
+          }
+        },
+        "domaines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParametresCommunsDto"
+          }
+        },
+        "entreprise": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "environnements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnvironnementDto"
+          }
+        },
+        "equipes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EquipeDto"
+          }
+        },
+        "hebergements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParametresCommunsDto"
+          }
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "idMysiBo": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "identifiant": {
+          "$ref": "#/definitions/ParametreDto"
+        },
+        "informationDecommissionnement": {
+          "type": "string"
+        },
+        "ins": {
+          "type": "string"
+        },
+        "liens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LienDto"
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "nombreAbonnes": {
+          "type": "string"
+        },
+        "nombreHabilites": {
+          "type": "string"
+        },
+        "nombreUtilisateursExternes": {
+          "type": "string"
+        },
+        "nombreUtilisateursInternes": {
+          "type": "string"
+        },
+        "offres": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OffreServiceDto"
+          }
+        },
+        "poleRegionEntite": {
+          "$ref": "#/definitions/PoleRegionEntiteDto"
+        },
+        "populationUtilisateurs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParametresCommunsDto"
+          }
+        },
+        "statut": {
+          "$ref": "#/definitions/ParametreDto"
+        },
+        "type": {
+          "$ref": "#/definitions/ParametreDto"
+        },
+        "typeMotDePasse": {
+          "$ref": "#/definitions/ParametreDto"
+        },
+        "zonesReseau": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParametresCommunsDto"
+          }
+        }
+      },
+      "title": "ServiceDetailsDto"
+    },
+    "LienDto": {
+      "type": "object",
+      "properties": {
+        "commentaire": {
+          "type": "string"
+        },
+        "lien": {
+          "type": "string"
+        },
+        "lienTypologie": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "portailMysi": {
+          "type": "boolean"
+        }
+      },
+      "title": "LienDto"
+    },
+    "OffreServiceDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "iop": {
+          "$ref": "#/definitions/OffreIopDto"
+        },
+        "ligneService": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParametresCommunsDto"
+          }
+        },
+        "pack": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "plage": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "type": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        }
+      },
+      "title": "OffreServiceDto"
+    },
+    "OffreIopDto": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number",
+          "format": "float"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "OffreIopDto"
+    },
+    "PoleRegionEntiteDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "title": "PoleRegionEntiteDto"
+    },
+    "EquipeDto": {
+      "type": "object",
+      "properties": {
+        "commentaire": {
+          "type": "string"
+        },
+        "emailAdresse": {
+          "type": "string"
+        },
+        "emailNom": {
+          "type": "string"
+        },
+        "groupeSupportAdresse": {
+          "type": "string"
+        },
+        "groupeSupportNom": {
+          "type": "string"
+        },
+        "niveauSupport": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "perimetres": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParametresCommunsDto"
+          }
+        },
+        "type": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        }
+      },
+      "title": "EquipeDto"
+    },
+    "DocumentDto": {
+      "type": "object",
+      "properties": {
+        "composantId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "documentDateVersion": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "documentLibelle": {
+          "type": "string"
+        },
+        "documentLien": {
+          "type": "string"
+        },
+        "documentTypologie": {
+          "$ref": "#/definitions/DocumentTypologieDto"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "DocumentDto"
+    },
+    "DocumentTypologieDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "nomCourt": {
+          "type": "string"
+        }
+      },
+      "title": "DocumentTypologieDto"
+    },
+    "EnvironnementDto": {
+      "type": "object",
+      "properties": {
+        "composants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComposantDto"
+          }
+        },
+        "environnement": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "hebergement": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lienSpiceLibelle": {
+          "type": "string"
+        },
+        "lienSpiceUrl": {
+          "type": "string"
+        },
+        "statut": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "zoneReseau": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        }
+      },
+      "title": "EnvironnementDto"
+    },
+    "ComposantDto": {
+      "type": "object",
+      "properties": {
+        "commentaire": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "idMysiBo": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "identifiant": {
+          "type": "string"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "statut": {
+          "$ref": "#/definitions/ParametresCommunsDto"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "title": "ComposantDto"
+    },
+    "Perturbation": {
+      "type": "object",
+      "properties": {
+        "application": {
+          "$ref": "#/definitions/Application"
+        },
+        "classEvenement": {
+          "type": "string"
+        },
+        "commentaires": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Commentaire"
+          }
+        },
+        "communication": {
+          "type": "string"
+        },
+        "composants": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createurNNI": {
+          "type": "string"
+        },
+        "criticite": {
+          "type": "string",
+          "enum": [
+            "bloquante",
+            "partielle",
+            "indeterminee"
+          ]
+        },
+        "dateCreation": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateDebut": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateFin": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateFinEstimee": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "id": {
+          "$ref": "#/definitions/ComparableNumber"
+        },
+        "impact": {
+          "type": "string"
+        },
+        "isConcerne": {
+          "type": "boolean"
+        },
+        "nniUtilisateursConcernes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nombreConcernes": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numeroPerturbation": {
+          "type": "string"
+        },
+        "reponse": {
+          "type": "string"
+        },
+        "reponseRedigePar": {
+          "type": "string"
+        },
+        "statut": {
+          "type": "string"
+        },
+        "sysId": {
+          "type": "string"
+        },
+        "titre": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "title": "Perturbation"
+    },
+    "ComparableNumber": {
+      "type": "object",
+      "title": "Comparable«Number»"
+    },
+    "Commentaire": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "reponse": {
+          "type": "string"
+        },
+        "reponseRedigePar": {
+          "type": "string"
+        },
+        "texte": {
+          "type": "string"
+        },
+        "utilisateur": {
+          "$ref": "#/definitions/Utilisateur"
+        }
+      },
+      "title": "Commentaire"
+    },
+    "Utilisateur": {
+      "type": "object",
+      "properties": {
+        "dateFinContrat": {
+          "type": "string"
+        },
+        "employeeType": {
+          "type": "string",
+          "enum": [
+            "A",
+            "E",
+            "P",
+            "F",
+            " "
+          ]
+        },
+        "hierarchieGardian": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isExternal": {
+          "type": "boolean"
+        },
+        "isManager": {
+          "type": "boolean"
+        },
+        "label": {
+          "type": "string"
+        },
+        "localisation": {
+          "type": "string"
+        },
+        "lockedOut": {
+          "type": "boolean"
+        },
+        "mail": {
+          "type": "string"
+        },
+        "managerSysId": {
+          "type": "string"
+        },
+        "nni": {
+          "type": "string"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "nomPrenom": {
+          "type": "string"
+        },
+        "prenom": {
+          "type": "string"
+        },
+        "sysId": {
+          "type": "string"
+        }
+      },
+      "title": "Utilisateur"
+    },
+    "RoleServiceDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "responsabilite": {
+          "type": "string"
+        },
+        "tooltip": {
+          "type": "string"
+        }
+      },
+      "title": "RoleServiceDto"
+    },
+    "UserLogin": {
+      "type": "object",
+      "properties": {
+        "nni": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "UserLogin"
+    }
+  }
+}
