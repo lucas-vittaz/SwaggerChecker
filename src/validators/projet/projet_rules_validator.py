@@ -44,7 +44,7 @@ class ProjetRulesValidator:
         self.reserved_header_validator = ReservedHeaderValidator(swagger_dict, swagger_text, self.rules.get("reserved_headers", []))
         self.reserved_query_param_validator = ReservedQueryParamValidator(swagger_dict, swagger_text, self.rules.get("reserved_query_parameters", []))
         self.info_validator = InfoValidator(swagger_dict, swagger_text)
-        self.response_validator = ResponseValidator(swagger_dict, swagger_text)
+        self.response_validator = ResponseValidator(swagger_dict, swagger_text, self.rules)
         self.special_character_validator = SpecialCharacterValidator(swagger_dict, swagger_text, special_characters)
         self.header_validator = HeaderValidator(swagger_dict, swagger_text, self.rules)
         self.query_param_validator = QueryParamValidator(swagger_dict, swagger_text, self.rules)
@@ -80,12 +80,12 @@ class ProjetRulesValidator:
         errors.extend(self.special_character_validator.validate_all_values())
         errors.extend(self.header_validator.validate_headers())
         errors.extend(self.query_param_validator.validate_query_parameters())
+        errors.extend(self.response_validator.validate_responses())
 
         for method, method_rules in self.rules.items():
             if isinstance(method_rules, dict):
                 errors.extend(self.reserved_query_param_validator.validate_reserved_query_parameters())
                 errors.extend(self.reserved_header_validator.validate_reserved_headers())
-                # errors.extend(self.response_validator.validate_responses(method, method_rules))
             else:
                 print(f"Attention: Les règles pour {method} ne sont pas un dictionnaire.")
 
