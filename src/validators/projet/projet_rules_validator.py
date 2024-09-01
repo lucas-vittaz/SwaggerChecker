@@ -59,7 +59,7 @@ class ProjetRulesValidator:
         """
         if not os.path.exists(filepath):
             raise FileNotFoundError(f"Validation rules file not found: {filepath}")
-        with open(filepath, 'r') as file:
+        with open(filepath, 'r', encoding='utf-8') as file:
             return json.load(file)
 
 
