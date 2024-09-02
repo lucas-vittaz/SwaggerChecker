@@ -56,6 +56,15 @@
         ],
         "responses": [
             {
+                "response_code": 200,
+                "format": {
+                    "type": "object",
+                    "properties": {
+                       
+                    }
+                }
+            },
+            {
                 "response_code": 400,
                 "format": {
                     "type": "object",
