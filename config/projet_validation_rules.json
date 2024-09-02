@@ -46,14 +46,6 @@
                 "required": false,
                 "type": "string",
                 "x-example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
-            },
-            {
-                "name": "Host",
-                "description": "Nom de domaine du serveur et numéro de port TCP si différent du port 80.",
-                "Format": "&lt;Nom de domaine&gt;:&lt;port TCP&gt;",
-                "x-example": "ext.hml.api.enedis.fr ",
-                "required": false,
-                "type": "string"
             }
         ],
         "query_parameters": [
@@ -133,7 +125,7 @@
                 "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
                 "required": true,
                 "type": "string",
-                "example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+                "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
             },
             {
                 "name": "User-Agent",
@@ -141,28 +133,42 @@
                 "required": false,
                 "type": "string",
                 "example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
-            },
-            {
-                "name": "Host",
-                "description": "Nom de domaine du serveur et numéro de port TCP si différent du port 80.\nFormat : &lt;Nom de domaine&gt;:&lt;port TCP&gt;\nx-example: ext.hml.api.enedis.fr  ",
-                "required": false,
-                "type": "string"
             }
         ],
         "responses": [
             {
-                "response_code": 201,
+                "response_code": 200,
                 "format": {
                     "type": "object",
                     "properties": {
-                        "id": {"type": "string"},
-                        "message": {"type": "string"}
-                    },
-                    "required": ["id", "message"]
+                       
+                    }
                 }
             },
             {
                 "response_code": 401,
+                "format": {
+                    "type": "object",
+                    "properties": {
+                        "error": {"type": "string"},
+                        "error_description": {"type": "string"}
+                    },
+                    "required": ["error", "error_description"]
+                }
+            },
+            {
+                "response_code": 403,
+                "format": {
+                    "type": "object",
+                    "properties": {
+                        "error": {"type": "string"},
+                        "error_description": {"type": "string"}
+                    },
+                    "required": ["error", "error_description"]
+                }
+            },
+            {
+                "response_code": 404,
                 "format": {
                     "type": "object",
                     "properties": {
