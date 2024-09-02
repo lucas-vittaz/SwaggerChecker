@@ -86,8 +86,6 @@ class ProjetRulesValidator:
             if isinstance(method_rules, dict):
                 errors.extend(self.reserved_query_param_validator.validate_reserved_query_parameters())
                 errors.extend(self.reserved_header_validator.validate_reserved_headers())
-            else:
-                print(f"Attention: Les règles pour {method} ne sont pas un dictionnaire.")
 
         if errors:
             return False, "\n".join(errors)
