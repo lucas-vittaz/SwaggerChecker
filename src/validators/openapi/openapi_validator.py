@@ -31,12 +31,13 @@ class OpenAPIValidator:
         """
         errors = []
         try:
-            if 'swagger' in self.swagger_dict:
-                validator = openapi_v2_spec_validator
-            elif 'openapi' in self.swagger_dict:
+            if 'openapi' in self.swagger_dict:
                 validator = openapi_v3_spec_validator
+            elif 'swagger' in self.swagger_dict:
+                validator = openapi_v2_spec_validator
+                raise Exception("La norme swagger n'est supportée, merci d'utiliser la norme OpenAPI")
             else:
-                raise Exception("Version Swagger/OpenAPI non spécifiée.")
+                raise Exception("Version OpenAPI non spécifiée.")
 
             # Itérer sur les erreurs de validation
             for error in validator.iter_errors(self.swagger_dict):

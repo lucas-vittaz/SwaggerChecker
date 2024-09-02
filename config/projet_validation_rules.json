@@ -21,44 +21,47 @@
         "headers": [
             {
                 "name": "Content-Type",
-                "description": "Identifiant unique pour la requête GET",
+                "description": "Format du body de la requête",
                 "required": false,
                 "type": "string",
-                "x-example": "application/json;charset=UTF8"
+                "x-example": "application/json;charset=UTF-8"
             },
             {
-                "name": "test",
-                "description": "header test",
+                "name": "Accept",
+                "description": "Format de réponse acceptable",
+                "required": false,
+                "type": "string",
+                "x-example": "application/json"
+            },
+            {
+                "name": "Authorization",
+                "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
                 "required": true,
                 "type": "string",
-                "x-example": "test"
+                "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+            },
+            {
+                "name": "User-Agent",
+                "description": "Description de l'équipement qui a émis la requêtes (hardware/software)",
+                "required": false,
+                "type": "string",
+                "x-example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
             }
         ],
         "query_parameters": [
-            {
-                "name": "param1",
-                "description": "Paramètre GET spécifique",
-                "required": true,
-                "type": "string",
-                "format" : "",
-                "x-exemple": "expected_value"
-            }
+           
         ],
         "path": [
-            {
-                "name": "path1",
-                "required": true,
-                "type": "integer",
-                "description": "Paramètre GET spécifique",
-                "value": "expected_value"
-            }
+
         ],
         "responses": [
             {
                 "response_code": 200,
                 "format": {
                     "type": "object",
-                    "properties": {}
+                    "properties": {
+                       
+                    }
                 }
             },
             {
@@ -104,72 +107,84 @@
                     },
                     "required": ["error", "error_description"]
                 }
-            },
-            {
-                "response_code": 429,
-                "format": {
-                    "type": "object",
-                    "properties": {
-                        "error": {"type": "string"},
-                        "error_description": {"type": "string"}
-                    },
-                    "required": ["error", "error_description"]
-                }
-            },
-            {
-                "response_code": 500,
-                "format": {
-                    "type": "object",
-                    "properties": {
-                        "error": {"type": "string"},
-                        "error_description": {"type": "string"}
-                    },
-                    "required": ["error", "error_description"]
-                }
-            },
-            {
-                "response_code": 503,
-                "format": {
-                    "type": "object",
-                    "properties": {
-                        "error": {"type": "string"},
-                        "error_description": {"type": "string"}
-                    },
-                    "required": ["error", "error_description"]
-                }
             }
         ]
     },
     "POST": {
         "query_parameters": [
-            {
-                "name": "param2",
-                "required": true,
-                "type": "integer",
-                "description": "Paramètre POST spécifique",
-                "value": 100
-            }
+            
         ],
         "headers": [
             {
+                "name": "Content-Type",
+                "description": "Format du body de la requête",
+                "required": false,
+                "type": "string",
+                "example": "application/json;charset=UTF-8"
+            },
+            {
+                "name": "Accept",
+                "description": "Format de réponse acceptable",
+                "required": false,
+                "type": "string",
+                "example": "application/json"
+            },
+            {
                 "name": "Authorization",
-                "description": "Jeton d'authentification pour POST",
+                "description": "Token Oauth délivré à l’application cliente lors de la phase préalable d'autorisation. \nFormat : Bearer &lt;Valeur du token&gt;.",
                 "required": true,
                 "type": "string",
-                "x-example": "toto"
+                "x-example": "haQIisPSLX466GzBuOe81lpJwWSbyEjGR1Xowfio89zDNWjNK2qg1G"
+            },
+            {
+                "name": "User-Agent",
+                "description": "Description de l'équipement qui a émis la requêtes (hardware/software)",
+                "required": false,
+                "type": "string",
+                "example": "Mozilla/5.0 (Linux; U; Android 4.0.3; fr-fr; LG-L160L Build/IML74K)"
             }
-            
         ],
         "responses": [
             {
-                "response_code": 201,
+                "response_code": 200,
                 "format": {
                     "type": "object",
                     "properties": {
-                        "id": {"type": "string"},
-                        "message": {"type": "string"}
+                       
+                    }
+                }
+            },
+            {
+                "response_code": 401,
+                "format": {
+                    "type": "object",
+                    "properties": {
+                        "error": {"type": "string"},
+                        "error_description": {"type": "string"}
                     },
-                    "required": ["id", "message"]
+                    "required": ["error", "error_description"]
+                }
+            },
+            {
+                "response_code": 403,
+                "format": {
+                    "type": "object",
+                    "properties": {
+                        "error": {"type": "string"},
+                        "error_description": {"type": "string"}
+                    },
+                    "required": ["error", "error_description"]
+                }
+            },
+            {
+                "response_code": 404,
+                "format": {
+                    "type": "object",
+                    "properties": {
+                        "error": {"type": "string"},
+                        "error_description": {"type": "string"}
+                    },
+                    "required": ["error", "error_description"]
                 }
             }
         ]

@@ -1,27 +1,12 @@
+import html
 from ..base_validator import BaseValidator
 
 class HeaderValidator(BaseValidator):
-    """
-    Valide les en-têtes définis dans le Swagger en fonction des règles spécifiques pour chaque méthode HTTP.
-    """
-
     def __init__(self, swagger_dict, swagger_text, rules):
-        """
-        Initialise le validateur avec les règles de validation des en-têtes pour chaque méthode HTTP.
-        
-        :param swagger_dict: Dictionnaire contenant la représentation du fichier Swagger.
-        :param swagger_text: Chaîne de caractères contenant le texte brut du fichier Swagger.
-        :param rules: Règles spécifiques pour chaque méthode HTTP.
-        """
         super().__init__(swagger_dict, swagger_text)
         self.rules = rules
 
     def validate_headers(self):
-        """
-        Valide les en-têtes dans le Swagger en fonction des règles spécifiées pour chaque méthode HTTP.
-        
-        :return: Une liste d'erreurs trouvées lors de la validation des en-têtes.
-        """
         errors = []
         paths = self.swagger_dict.get('paths', {})
 
@@ -47,28 +32,12 @@ class HeaderValidator(BaseValidator):
         return errors
 
     def _find_header(self, header_name, parameters):
-        """
-        Trouve un en-tête spécifique dans les paramètres.
-
-        :param header_name: Nom de l'en-tête à rechercher.
-        :param parameters: Liste des paramètres pour une méthode donnée.
-        :return: Le dictionnaire de l'en-tête trouvé ou None.
-        """
         for param in parameters:
             if param.get("in") == "header" and param.get("name").lower() == header_name.lower():
                 return param
         return None
 
     def _validate_header(self, parameter, rule, method, path):
-        """
-        Valide un en-tête en fonction d'une règle spécifique.
-
-        :param parameter: Le dictionnaire de l'en-tête à valider.
-        :param rule: La règle de validation pour cet en-tête.
-        :param method: La méthode HTTP pour laquelle cet en-tête est utilisé.
-        :param path: Le chemin d'API pour lequel cet en-tête est utilisé.
-        :return: Une liste d'erreurs si la validation échoue.
-        """
         errors = []
         header_name = rule["name"]
         schema = parameter.get("schema", {})
@@ -87,6 +56,10 @@ class HeaderValidator(BaseValidator):
         if example is None:
             example = parameter.get("example")
 
+        # Normaliser les descriptions pour ignorer les différences d'espaces ou de retours à la ligne
+        actual_description = html.unescape(parameter.get("description", "").strip())
+        expected_description = html.unescape(rule.get("description", "").strip())
+
         if rule.get("type") and schema.get("type") != rule["type"]:
             errors.append(
                 f"Le type du header '{header_name}' dans {method.upper()} {path} est '{schema.get('type')}', "
@@ -99,10 +72,10 @@ class HeaderValidator(BaseValidator):
                 f"mais il devrait être '{rule['x-example']}'.\n{format_rule()}"
             )
 
-        if rule.get("description") and parameter.get("description") != rule["description"]:
+        if expected_description and actual_description != expected_description:
             errors.append(
-                f"La description du header '{header_name}' dans {method.upper()} {path} est '{parameter.get('description')}', "
-                f"mais il devrait être '{rule['description']}'.\n{format_rule()}"
+                f"La description du header '{header_name}' dans {method.upper()} {path} est '{actual_description}', "
+                f"mais il devrait être '{expected_description}'.\n{format_rule()}"
             )
 
         return errors
